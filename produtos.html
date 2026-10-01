@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Patriota Completo | Brasil Patriota</title>
+    <meta name="description" content="Catálogo completo: Camisa Seleção 2026 amarela autografada, verde Mito 22, preta Bolsonaro, kits e acessórios patriotas.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css?v=3">
+</head>
+
+<body>
+
+    <header class="site-header fashion-header">
+        <div class="top-bar fashion-topbar">FRETE PROMOCIONAL NA COPA 2026 &nbsp;•&nbsp; PERSONALIZAÇÃO COM SEU NOME GRÁTIS</div>
+        <div class="container nav-container fashion-nav">
+            <a href="index.html" class="logo" aria-label="Página inicial Brasil Patriota">
+                <img src="img/logo-brasil-patriota.svg" width="40" height="40" alt="Logo Brasil Patriota"> <span class="logo-text">BRASIL <strong>PATRIOTA</strong></span>
+            </a>
+
+            <nav class="main-nav" aria-label="Menu principal">
+                <a href="index.html">Início</a>
+                <a href="produtos.html" class="active">Loja</a>
+                <a href="index.html#personalizada">Personalizada</a>
+                <a href="index.html#medidas">Guia de Medidas</a>
+            </nav>
+            <div class="header-icons">
+                <a href="carrinho.html" class="cart-icon-wrapper" aria-label="Ver carrinho">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="catalog-page section-padding">
+        <div class="container catalog-container">
+            <h1>Nosso Catálogo Patriota</h1>
+            <p class="text-muted">Amarelinha Copa 2026, Linha Bolsonaro e kits. Escolha o produto para ver detalhes, tamanho e cor.</p>
+
+            <div class="catalog-toolbar">
+                <div class="catalog-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input id="catalog-search" type="search" placeholder="Buscar camisa... (ex: amarela, verde, kit)">
+                </div>
+                <select id="catalog-sort" aria-label="Ordenar">
+                    <option value="rel">Ordenar: relevância</option>
+                    <option value="asc">Menor preço</option>
+                    <option value="desc">Maior preço</option>
+                    <option value="az">Nome A–Z</option>
+                </select>
+            </div>
+
+            <div class="catalog-filters">
+                <button class="filter-btn active" data-filter="all">Todos <b id="count-all"></b></button>
+                <button class="filter-btn" data-filter="selecao-2026">Seleção 2026 <b id="count-selecao-2026"></b></button>
+                <button class="filter-btn" data-filter="mito-bolsonaro">Linha Bolsonaro <b id="count-mito-bolsonaro"></b></button>
+                <button class="filter-btn" data-filter="kits-patriota">Kits <b id="count-kits-patriota"></b></button>
+            </div>
+            <p class="text-muted" id="catalog-count" style="margin-top:12px;font-size:13px"></p>
+
+            <div id="catalog-grid" class="product-grid"></div>
+
+            <div class="personalizar-aviso">
+                <h3>Quer personalizar com SEU NOME?</h3>
+                <p>Adicione ao carrinho e digite o nome para as costas no próprio carrinho. Personalização <strong>GRÁTIS</strong> nas camisas amarelas PAT-001 e PAT-004.</p>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+
+                <div class="footer-brand">
+                    <div class="logo-text" style="color:#fff;font-size:22px;margin-bottom:10px;"><img src="img/logo-brasil-patriota.svg" width="36" height="36" alt="Logo" style="vertical-align:middle;"> BRASIL PATRIOTA</div>
+                    <p>Vestindo patriotas com orgulho.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Links</h4>
+                    <a href="index.html">Início</a>
+                    <a href="index.html#colecoes">Camisas 2026</a>
+                    <a href="index.html#sobre">Sobre</a>
+                    <a href="produtos.html">Catálogo</a>
+                    <a href="carrinho.html">Carrinho</a>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Loja</h4>
+                    <p>E-mail: contato@brasilpatriota.com.br</p>
+                    <p>Envio: FULL Mercado Envios</p>
+                    <p>Troca de tamanho em até 7 dias</p>
+                </div>
+
+                <div class="footer-social">
+                    <h4>Atendimento</h4>
+                    <a href="mailto:contato@brasilpatriota.com.br" class="social-btn" aria-label="E-mail"><i class="fa-solid fa-envelope"></i></a>
+                    <p style="margin-top:12px">Seg. a Sex. 8h–18h<br>Sábado 8h–12h</p>
+                    <h4 style="margin-top:18px">Pagamento</h4>
+                    <p>Pix • Visa • Master • Elo</p>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="ano-atual"></span> Loja Brasil Patriota. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/db.js"></script>
+    <script src="js/script.js?v=4"></script>
+</body>
+
+</html>

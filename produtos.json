@@ -1,0 +1,120 @@
+[
+  {
+    "id": 1,
+    "nome": "Camisa Amarela Bolsonaro 22 Copa 2026 - Deus Pátria Família",
+    "categoria": "selecao-2026",
+    "material": "Dry-Fit Premium Seleção",
+    "codigo": "PAT-001",
+    "cor": "Amarelo Ouro",
+    "tamanhos_disponiveis": ["P", "M", "G", "GG", "XG"],
+    "preco": 149.9,
+    "destaque": true,
+    "imagem_url": "img/produtos/camisa-amarela-bolsonaro-22.jpeg",
+    "descricao": "Amarelinha da Copa 2026 com BOLSONARO 22 e Deus Pátria Família nas costas, igual da foto. Tecido dry-fit leve para jogos, motociatas e manifestações."
+  },
+  {
+    "id": 2,
+    "nome": "Camisa Verde Militar Brasil Acima de Tudo - Deus Acima de Todos",
+    "categoria": "mito-bolsonaro",
+    "material": "100% Algodão Fio 30.1 Penteado",
+    "codigo": "PAT-002",
+    "cor": "Verde Militar",
+    "tamanhos_disponiveis": ["P", "M", "G", "GG"],
+    "preco": 89.9,
+    "destaque": true,
+    "imagem_url": "img/produtos/camisa-verde-brasil-acima.jpeg",
+    "descricao": "Camisa verde militar com bandeira do Brasil e a frase Brasil Acima de Tudo, Deus Acima de Todos nas costas, igual da foto. Algodão macio de uso diário."
+  },
+  {
+    "id": 3,
+    "nome": "Camisa Anti Petista Brasil Club - Branca",
+    "categoria": "mito-bolsonaro",
+    "material": "100% Algodão Premium",
+    "codigo": "PAT-003-BR",
+    "cor": "Branco",
+    "tamanhos_disponiveis": ["P", "M", "G", "GG"],
+    "preco": 79.9,
+    "imagem_url": "img/produtos/camisa-anti-petista.jpeg",
+    "descricao": "Camisa branca com estampa Anti Petista Brasil Club nas costas. Foto mostra os dois modelos (branco e preto): este anúncio é o BRANCO."
+  },
+  {
+    "id": 4,
+    "nome": "Camisa Anti Petista Brasil Club - Preta",
+    "categoria": "mito-bolsonaro",
+    "material": "100% Algodão Premium",
+    "codigo": "PAT-003-PT",
+    "cor": "Preto",
+    "tamanhos_disponiveis": ["P", "M", "G", "GG"],
+    "preco": 79.9,
+    "imagem_url": "img/produtos/camisa-anti-petista.jpeg",
+    "descricao": "Camisa preta com estampa Anti Petista Brasil Club nas costas. Foto mostra os dois modelos (branco e preto): este anúncio é o PRETO."
+  },
+  {
+    "id": 5,
+    "nome": "Camisa Jesus com Bandeira do Brasil Gênesis 12 - Feminina",
+    "categoria": "mito-bolsonaro",
+    "material": "Algodão Premium Oversized",
+    "codigo": "PAT-005",
+    "cor": "Branco",
+    "tamanhos_disponiveis": ["P", "M", "G"],
+    "preco": 89.9,
+    "imagem_url": "img/produtos/camisa-jesus-brasil-feminina.jpeg",
+    "descricao": "Camisa branca feminina oversized com Jesus segurando a bandeira do Brasil e o versículo de Gênesis 12, igual da foto. Modelagem soltinha."
+  },
+  {
+    "id": 6,
+    "nome": "Camisa Bege Brasileiro Mapa do Brasil - Masculina Oversized",
+    "categoria": "mito-bolsonaro",
+    "material": "Algodão Premium Oversized",
+    "codigo": "PAT-006",
+    "cor": "Bege Areia",
+    "tamanhos_disponiveis": ["P", "M", "G", "GG"],
+    "preco": 89.9,
+    "imagem_url": "img/produtos/camisa-brasileiro-mapa.jpeg",
+    "descricao": "Camisa bege masculina oversized com BRASILEIRO e o mapa do Brasil nas costas, igual da foto. Estilo streetwear."
+  },
+  {
+    "id": 7,
+    "nome": "Camisa Amarela Personalizada com Seu Nome + Número",
+    "categoria": "selecao-2026",
+    "material": "Dry-Fit + Personalização Grátis",
+    "codigo": "PAT-004",
+    "cor": "Amarelo Canarinho",
+    "tamanhos_disponiveis": ["P", "M", "G", "GG", "XG"],
+    "preco": 159.9,
+    "destaque": true,
+    "imagem_url": "img/produtos/camisa-amarela-bolsonaro-22.jpeg",
+    "galeria": [
+      "img/produtos/personalizada/amarela-22.jpeg",
+      "img/produtos/personalizada/verde-brasil.jpeg",
+      "img/produtos/personalizada/anti-petista.jpeg",
+      "img/produtos/personalizada/jesus-brasil.jpeg",
+      "img/produtos/personalizada/brasileiro-mapa.jpeg"
+    ],
+    "descricao": "Amarelinha 2026 com SEU NOME e número nas costas no lugar do 22. Personalização grátis: digite o nome no campo do produto dentro do carrinho."
+  },
+  {
+    "id": 8,
+    "nome": "Kit 3 Camisas Patriota: Amarela 22 + Verde Brasil + Anti Petista",
+    "categoria": "kits-patriota",
+    "material": "Kit com 3 peças Premium",
+    "codigo": "PAT-KIT01",
+    "cor": "Amarelo/Verde/À escolha",
+    "tamanhos_disponiveis": ["P", "M", "G", "GG"],
+    "preco": 229.9,
+    "imagem_url": "img/produtos/camisa-amarela-bolsonaro-22.jpeg",
+    "descricao": "Kit com 3 camisas: 1 amarela Bolsonaro 22 + 1 verde Brasil Acima de Tudo + 1 Anti Petista (branca ou preta). Informe tamanhos e a cor da terceira peça no checkout."
+  },
+  {
+    "id": 9,
+    "nome": "Kit Casal Patriota: Jesus Brasil + Brasileiro Mapa",
+    "categoria": "kits-patriota",
+    "material": "Kit com 2 peças Oversized",
+    "codigo": "PAT-KIT02",
+    "cor": "Branco/Bege",
+    "tamanhos_disponiveis": ["P", "M", "G", "GG"],
+    "preco": 159.9,
+    "imagem_url": "img/produtos/camisa-jesus-brasil-feminina.jpeg",
+    "descricao": "Kit casal com 2 camisas: 1 feminina Jesus com bandeira + 1 masculina Brasileiro mapa. Informe os dois tamanhos no checkout."
+  }
+]

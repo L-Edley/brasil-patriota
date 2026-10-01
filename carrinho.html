@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Seu Carrinho Patriota | Brasil Patriota</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/carrinho.css?v=3">
+</head>
+
+<body>
+
+    <header class="site-header fashion-header">
+        <div class="top-bar fashion-topbar">FRETE PROMOCIONAL NA COPA 2026 &nbsp;•&nbsp; PERSONALIZAÇÃO COM SEU NOME GRÁTIS</div>
+        <div class="container nav-container fashion-nav">
+            <a href="index.html" class="logo" aria-label="Página inicial Brasil Patriota">
+                <img src="img/logo-brasil-patriota.svg" width="40" height="40" alt="Logo Brasil Patriota"> <span class="logo-text">BRASIL <strong>PATRIOTA</strong></span>
+            </a>
+
+            <nav class="main-nav" aria-label="Menu principal">
+                <a href="index.html">Início</a>
+                <a href="produtos.html">Loja</a>
+                <a href="index.html#personalizada">Personalizada</a>
+                <a href="index.html#medidas">Guia de Medidas</a>
+            </nav>
+            <div class="header-icons">
+                <a href="carrinho.html" class="cart-icon-wrapper" aria-label="Ver carrinho">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="cart-page section-padding">
+        <div class="container cart-container">
+            <div class="cart-header">
+                <h1>Seu Carrinho</h1>
+                <p class="text-muted">
+                    Entrega <strong>FULL Mercado Envios</strong> com rastreio. <strong>Calcule o frete com seu CEP</strong> para ver prazo e valor — grátis acima de R$ 199.
+                </p>
+            </div>
+
+            <div class="checkout-grid">
+                <div class="cart-content">
+                    <h2>Produtos selecionados</h2>
+
+                    <div id="cart-items-list" class="cart-list">
+                        <!-- Gerado pelo JavaScript -->
+                    </div>
+                </div>
+
+                <div class="checkout-card">
+                    <h3>Resumo do Pedido</h3>
+
+                    <hr class="checkout-divider">
+
+                    <div class="frete-box" id="frete-calc">
+                        <label for="cep-input"><i class="fa-solid fa-truck-fast"></i> Calcular frete</label>
+                        <div class="frete-row">
+                            <input type="text" id="cep-input" inputmode="numeric" placeholder="Digite seu CEP" maxlength="9">
+                            <button type="button" id="btn-cep">Calcular</button>
+                        </div>
+                        <div id="frete-result"></div>
+                    </div>
+
+                    <div style="display:flex;justify-content:space-between;margin-top:14px;font-size:14px"><span>Subtotal</span><strong id="cart-subtotal-value">R$ 0,00</strong></div>
+                    <div style="display:flex;justify-content:space-between;font-size:14px;margin-top:4px"><span>Entrega</span><strong id="cart-frete-value">A calcular</strong></div>
+
+                    <hr class="checkout-divider">
+
+                    <div class="checkout-total">
+                        <span>Total:</span>
+                        <span id="cart-total-value">R$ 0,00</span>
+                    </div>
+                    <small id="cart-frete-note" style="display:block;color:#666;font-size:12px;margin-top:6px"></small>
+
+                    <a href="checkout.html" id="btn-finalizar" class="btn-checkout" style="display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;margin-top:16px"><i class="fa-solid fa-lock"></i> Finalizar compra</a>
+                    <a href="produtos.html" style="display:block;text-align:center;margin-top:12px;font-weight:700;font-size:14px">← Continuar comprando</a>
+                    <p class="checkout-note">Frete calculado acima já vai aplicado no checkout. Personalização do nome: informe no checkout.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+
+                <div class="footer-brand">
+                    <div class="logo-text" style="color:#fff;font-size:22px;margin-bottom:10px;"><img src="img/logo-brasil-patriota.svg" width="36" height="36" alt="Logo" style="vertical-align:middle;"> BRASIL PATRIOTA</div>
+                    <p>Vestindo patriotas com orgulho.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Links</h4>
+                    <a href="index.html">Início</a>
+                    <a href="index.html#colecoes">Camisas 2026</a>
+                    <a href="index.html#sobre">Sobre</a>
+                    <a href="produtos.html">Catálogo</a>
+                    <a href="carrinho.html">Carrinho</a>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Loja</h4>
+                    <p>E-mail: contato@brasilpatriota.com.br</p>
+                    <p>Envio: FULL Mercado Envios</p>
+                    <p>Troca de tamanho em até 7 dias</p>
+                </div>
+
+                <div class="footer-social">
+                    <h4>Atendimento</h4>
+                    <a href="mailto:contato@brasilpatriota.com.br" class="social-btn" aria-label="E-mail"><i class="fa-solid fa-envelope"></i></a>
+                    <p style="margin-top:12px">Seg. a Sex. 8h–18h<br>Sábado 8h–12h</p>
+                    <h4 style="margin-top:18px">Pagamento</h4>
+                    <p>Pix • Visa • Master • Elo</p>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="ano-atual"></span> Loja Brasil Patriota. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/db.js"></script>
+    <script src="js/script.js?v=4"></script>
+</body>
+
+</html>

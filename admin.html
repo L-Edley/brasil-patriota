@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos | Brasil Patriota (Admin)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <style>
+        .admin-wrap{max-width:1100px;margin:0 auto;padding:32px 20px 64px}
+        .admin-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+        .admin-head h1{font-size:28px;letter-spacing:-.5px}
+        .admin-actions{display:flex;gap:8px;flex-wrap:wrap}
+        .admin-actions button{border:1.5px solid #111;background:#fff;border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:13px}
+        .admin-actions button.dark{background:#111;color:#fff}
+        .admin-actions button.danger{border-color:#c00;color:#c00}
+        table.admin-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #eee;border-radius:16px;overflow:hidden;font-size:13px}
+        .table-scroll{overflow-x:auto;border-radius:16px;border:1px solid #eee}
+        .admin-table th,.admin-table td{padding:12px 14px;border-bottom:1px solid #eee;text-align:left;vertical-align:top;white-space:nowrap}
+        .admin-table th{background:#111;color:#fff;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+        .admin-table tr:last-child td{border-bottom:none}
+        .admin-empty{background:#fff;border:1px dashed #bbb;border-radius:16px;padding:32px;text-align:center;color:#666}
+        h2.admin-sub{font-size:20px;margin:36px 0 14px}
+    </style>
+</head>
+<body>
+    <header class="site-header fashion-header">
+        <div class="top-bar fashion-topbar">ÁREA INTERNA — DADOS SALVOS NESTE NAVEGADOR</div>
+        <div class="container nav-container fashion-nav">
+            <a href="index.html" class="logo"><img src="img/logo-brasil-patriota.svg" width="40" height="40" alt="Logo"> <span class="logo-text">BRASIL <strong>PATRIOTA</strong></span></a>
+            <nav class="main-nav"><a href="index.html">Loja</a><a href="admin.html" class="active">Pedidos</a></nav>
+            <div class="header-icons"><a href="index.html" aria-label="Voltar à loja"><i class="fa-solid fa-store"></i></a></div>
+        </div>
+    </header>
+
+    <main class="admin-wrap">
+        <div class="admin-head">
+            <div><h1>Pedidos recebidos</h1><p class="text-muted" id="orders-count"></p></div>
+            <div class="admin-actions">
+                <button id="btn-csv">Exportar CSV</button>
+                <button id="btn-json">Exportar JSON</button>
+                <button id="btn-clear" class="danger">Apagar tudo</button>
+            </div>
+        </div>
+        <div class="table-scroll"><table class="admin-table"><thead><tr><th>Pedido</th><th>Data</th><th>Cliente</th><th>Contato</th><th>Itens</th><th>Personalização</th><th>Entrega</th><th>Pagto</th><th>Total</th></tr></thead><tbody id="orders-body"></tbody></table></div>
+        <div id="orders-empty" class="admin-empty" style="display:none">Nenhum pedido salvo neste navegador ainda.<br>Finalize uma compra no <a href="checkout.html" style="font-weight:700">checkout</a> para ver aqui.</div>
+
+        <h2 class="admin-sub">Leads do cupom (newsletter)</h2>
+        <div class="table-scroll"><table class="admin-table"><thead><tr><th>Data</th><th>Nome</th><th>E-mail</th><th>Cupom</th></tr></thead><tbody id="leads-body"></tbody></table></div>
+        <div id="leads-empty" class="admin-empty" style="display:none">Nenhum lead capturado ainda.</div>
+    </main>
+
+<script src="js/db.js"></script>
+<script>
+const BRL = v => 'R$ ' + Number(v||0).toFixed(2).replace('.', ',');
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+let ORDERS = [];
+function fmtDate(iso){ try{ return new Date(iso).toLocaleString('pt-BR'); }catch(e){ return iso||''; } }
+async function load(){
+  ORDERS = await BPDB.getOrders();
+  ORDERS.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+  document.getElementById('orders-count').innerText = ORDERS.length ? ORDERS.length + (ORDERS.length===1?' pedido no BD local':' pedidos no BD local') : '';
+  const tb = document.getElementById('orders-body');
+  document.getElementById('orders-empty').style.display = ORDERS.length ? 'none' : 'block';
+  tb.innerHTML = ORDERS.map(o=>{
+    const itens = (o.items||[]).map(i=>`${i.quantidade}x ${esc(i.nome)} (Tam ${esc(i.tamanho)})`).join('<br>');
+    const customs = (o.items||[]).filter(i=>i.custom&&String(i.custom).trim()).map(i=>`${esc(i.nome)}: "${esc(i.custom)}"`).join('<br>') || '—';
+    return `<tr><td><strong>${esc(o.order)}</strong></td><td>${fmtDate(o.date)}</td><td>${esc(o.nome)}<br><small>${esc(o.cpf||'')}</small></td><td>${esc(o.email)}<br><small>${esc(o.fone)}</small></td><td>${itens}</td><td>${customs}</td><td><small>${esc(o.endereco)}</small></td><td>${esc(o.pay)}</td><td><strong>${esc(o.total)}</strong></td></tr>`;
+  }).join('');
+  const leads = await BPDB.getLeads();
+  const lb = document.getElementById('leads-body');
+  document.getElementById('leads-empty').style.display = leads.length ? 'none' : 'block';
+  lb.innerHTML = leads.map(l=>`<tr><td>${fmtDate(l.date)}</td><td>${esc(l.nome)}</td><td>${esc(l.email)}</td><td>${esc(l.cupom||'')}</td></tr>`).join('');
+}
+document.getElementById('btn-json').onclick = ()=>{
+  const blob = new Blob([JSON.stringify(ORDERS,null,2)],{type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pedidos-brasil-patriota.json'; a.click();
+};
+document.getElementById('btn-csv').onclick = ()=>{
+  const rows = [['pedido','data','cliente','email','fone','itens','personalizacao','endereco','pagamento','total']];
+  ORDERS.forEach(o=>{
+    rows.push([o.order,o.date,o.nome,o.email,o.fone,(o.items||[]).map(i=>`${i.quantidade}x ${i.nome} (${i.tamanho})`).join(' | '),(o.items||[]).filter(i=>i.custom).map(i=>`${i.nome}: ${i.custom}`).join(' | '),o.endereco,o.pay,o.total]);
+  });
+  const csv = rows.map(r=>r.map(c=>`"${String(c==null?'':c).replace(/"/g,'""')}"`).join(';')).join('\n');
+  const blob = new Blob(["\ufeff"+csv],{type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pedidos-brasil-patriota.csv'; a.click();
+};
+document.getElementById('btn-clear').onclick = async ()=>{
+  if(!confirm('Apagar TODOS os pedidos do BD local?')) return;
+  await BPDB.clearOrders(); load();
+};
+load();
+</script>
+</body>
+</html>

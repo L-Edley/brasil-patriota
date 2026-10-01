@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Seguro | Brasil Patriota</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/carrinho.css?v=3">
+    <style>
+        .secure-badge{background:#009B3A;color:#fff;font-weight:800;font-size:11px;letter-spacing:1px;padding:6px 12px;border-radius:999px;display:inline-block;margin-bottom:12px}
+        .checkout-steps{display:flex;gap:8px;margin:18px 0 28px}
+        .checkout-steps span,.checkout-steps a{flex:1;text-align:center;font-size:12px;font-weight:700;padding:10px;border-radius:999px;background:#F4F4F5;color:#777;text-decoration:none}
+        .checkout-steps span.active,.checkout-steps a.active{background:#111;color:#fff}
+        .pay-tabs{display:flex;gap:10px;margin:12px 0 20px}
+        .pay-tab{flex:1;border:1.5px solid #e5e5e5;background:#fff;border-radius:14px;padding:14px;cursor:pointer;text-align:center;font-weight:700;font-size:14px}
+        .pay-tab.active{border-color:#111;background:#111;color:#fff}
+        .pay-tab i{margin-right:6px}
+        .brand-flags{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+        .brand-flag{border:1.5px solid #e5e5e5;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:800;letter-spacing:.5px;color:#999;background:#fff}
+        .brand-flag.on{border-color:#111;color:#111;background:#F4F4F5}
+        .brand-flag.visa.on{border-color:#1A1F71;color:#1A1F71}
+        .brand-flag.master.on{border-color:#EB001B;color:#EB001B}
+        .card-preview{background:#111;color:#fff;border-radius:18px;padding:22px;margin-bottom:18px;position:relative;overflow:hidden}
+        .card-preview::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;background:radial-gradient(circle,#009B3A 0%,transparent 70%);opacity:.6}
+        .card-preview small{color:#bbb;letter-spacing:1px}
+        .card-preview .num{font-size:20px;letter-spacing:2px;margin:8px 0;font-family:monospace}
+        .card-brand-preview{position:absolute;top:18px;right:20px;font-weight:800;font-size:13px;letter-spacing:1px;background:#fff;color:#111;border-radius:8px;padding:4px 10px}
+        .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .pix-box{background:#fff;border:2px solid #009B3A;border-radius:16px;padding:24px;text-align:center;margin-bottom:16px}
+        .pix-box img{width:220px;height:220px;border-radius:12px;background:#fff}
+        .pix-code{width:100%;min-height:64px;border:1px solid #ddd;border-radius:10px;padding:10px;font-size:11px;margin-top:12px;font-family:monospace}
+        .btn-copy{margin-top:10px;background:#009B3A;color:#fff;border:none;border-radius:999px;padding:12px 24px;font-weight:700;cursor:pointer}
+        .processing-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:9999}
+        .processing-overlay.show{display:flex}
+        .processing-box{background:#fff;border-radius:24px;padding:40px;text-align:center;max-width:360px}
+        .spinner{width:56px;height:56px;border:5px solid #eee;border-top-color:#009B3A;border-radius:50%;margin:0 auto 16px;animation:spin 1s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .success-box{background:#fff;border:1px solid #eee;border-radius:24px;padding:40px;text-align:center}
+        .success-icon{width:72px;height:72px;background:#009B3A;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px}
+        .order-num{background:#F4F4F5;border-radius:12px;padding:12px;font-weight:800;letter-spacing:1px;margin:16px 0}
+        #pix-qr[src=""]{display:none}
+        .co-card{background:#fff;border:1px solid #eee;border-radius:20px;padding:24px;margin-bottom:18px;display:none}
+        .co-card.on{display:block;animation:coIn .3s}
+        @keyframes coIn{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+        .co-nav{display:flex;gap:10px;margin-top:20px}
+        .co-nav .btn-add{flex:1}
+        .co-back{flex:0 0 auto;background:#fff;border:1.5px solid #111;color:#111;border-radius:999px;padding:14px 24px;font-weight:700;cursor:pointer;font-size:14px}
+        .co-back:hover{background:#111;color:#fff}
+        .co-card h2{font-size:19px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+        .co-num{width:30px;height:30px;flex-shrink:0;border-radius:50%;background:#111;color:#fff;font-size:14px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+        @media(max-width:640px){
+            .row2{grid-template-columns:1fr}
+            .pay-tabs{flex-wrap:wrap}
+            .pay-tab{flex:1 1 30%;padding:12px 6px;font-size:12px}
+            .checkout-steps span,.checkout-steps a{font-size:10px;padding:8px 4px}
+            .card-preview .num{font-size:16px}
+            .pix-box img{width:100%;max-width:220px;height:auto}
+            .success-box{padding:28px 20px}
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header fashion-header">
+        <div class="top-bar fashion-topbar"><i class="fa-solid fa-lock"></i> PAGAMENTO 100% SEGURO &nbsp;•&nbsp; PIX &nbsp;•&nbsp; CARTÃO</div>
+        <div class="container nav-container fashion-nav">
+            <a href="index.html" class="logo"><img src="img/logo-brasil-patriota.svg" width="40" height="40" alt="Logo"> <span class="logo-text">BRASIL <strong>PATRIOTA</strong></span></a>
+            <nav class="main-nav"><a href="index.html">Início</a><a href="produtos.html">Loja</a><a href="carrinho.html">Carrinho</a></nav>
+            <div class="header-icons"><a href="carrinho.html" class="cart-icon-wrapper"><i class="fa-solid fa-bag-shopping"></i><span id="cart-count" class="cart-badge">0</span></a></div>
+        </div>
+    </header>
+
+    <main class="cart-page section-padding">
+        <div class="container cart-container">
+            <span class="secure-badge"><i class="fa-solid fa-lock"></i> CHECKOUT SEGURO</span>
+            <h1>Finalizar compra</h1>
+            <p class="text-muted">Preencha seus dados para concluir o pedido.</p>
+
+            <div class="checkout-steps" id="co-steps">
+                <a href="carrinho.html" title="Voltar ao carrinho">← Carrinho</a>
+                <a href="#sec-dados" data-costep="1" class="active">1 • Dados</a>
+                <a href="#sec-entrega" data-costep="2">2 • Entrega</a>
+                <a href="#sec-pagamento" data-costep="3">3 • Pagamento</a>
+            </div>
+
+            <div id="checkout-main" class="checkout-grid">
+                <div class="cart-content">
+                    <form id="checkout-form" class="checkout-form" style="margin-top:0">
+                      <section class="co-card on" id="sec-dados">
+                        <h2><span class="co-num">1</span> Seus dados</h2>
+                        <div class="row2">
+                            <div class="form-group"><label>Nome completo</label><input id="f_nome" required placeholder="Ex: José Patriota"></div>
+                            <div class="form-group"><label>CPF</label><input id="f_cpf" required inputmode="numeric" placeholder="000.000.000-00"></div>
+                        </div>
+                        <div class="row2">
+                            <div class="form-group"><label>E-mail</label><input id="f_email" type="email" required placeholder="voce@email.com"></div>
+                            <div class="form-group"><label>Celular / Telefone</label><input id="f_fone" required placeholder="(00) 90000-0000"></div>
+                        </div>
+                        <div class="co-nav"><button type="button" class="btn-add" data-goto="2">Continuar para entrega →</button></div>
+                      </section>
+
+                      <section class="co-card" id="sec-entrega">
+                        <h2><span class="co-num">2</span> <i class="fa-solid fa-truck-fast"></i> Endereço para entrega</h2>
+                        <div class="row2">
+                            <div class="form-group"><label>CEP</label><input id="f_cep" required inputmode="numeric" placeholder="00000-000"></div>
+                            <div class="form-group"><label>Bairro</label><input id="f_bairro" required placeholder="Ex: Centro"></div>
+                        </div>
+                        <div class="form-group"><label>Rua / Avenida</label><input id="f_rua" required placeholder="Ex: Av. Brasil"></div>
+                        <div class="row2">
+                            <div class="form-group"><label>Número</label><input id="f_num" required inputmode="numeric" placeholder="Ex: 123"></div>
+                            <div class="form-group"><label>Complemento (opcional)</label><input id="f_comp" placeholder="Apto, bloco, casa..."></div>
+                        </div>
+                        <div class="row2" style="margin-bottom:0">
+                            <div class="form-group" style="margin-bottom:0"><label>Cidade</label><input id="f_cidade" required placeholder="Ex: São Paulo"></div>
+                            <div class="form-group" style="margin-bottom:0"><label>Estado (UF)</label><select id="f_uf" required style="width:100%;min-height:48px;border-radius:8px;border:1px solid #ddd;padding:0 12px;font-family:inherit"><option value="">UF</option><option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option></select></div>
+                        </div>
+                        <div class="co-nav"><button type="button" class="co-back" data-goto="1">← Voltar</button><button type="button" class="btn-add" data-goto="3">Continuar para pagamento →</button></div>
+                      </section>
+
+                      <section class="co-card" id="sec-pagamento">
+                        <h2><span class="co-num">3</span> Pagamento</h2>
+                        <div class="pay-tabs">
+                            <div class="pay-tab active" data-pay="card"><i class="fa-solid fa-credit-card"></i>Cartão</div>
+                            <div class="pay-tab" data-pay="pix"><i class="fa-solid fa-qrcode"></i>Pix</div>
+                        </div>
+
+                        <div id="pay-card">
+                            <div class="brand-flags" id="brand-flags">
+                                <span class="brand-flag visa" data-b="visa">VISA</span>
+                                <span class="brand-flag master" data-b="master">MASTERCARD</span>
+                                <span class="brand-flag" data-b="elo">ELO</span>
+                                <span class="brand-flag" data-b="amex">AMEX</span>
+                                <span class="brand-flag" data-b="hiper">HIPERCARD</span>
+                            </div>
+                            <div class="card-preview">
+                                <span class="card-brand-preview" id="card-brand-label">•••</span>
+                                <small>CARTÃO DE CRÉDITO</small>
+                                <div class="num" id="preview-num">•••• •••• •••• ••••</div>
+                                <div style="display:flex;justify-content:space-between"><span id="preview-name">SEU NOME</span><span id="preview-val">MM/AA</span></div>
+                            </div>
+                            <div class="form-group"><label>Número do cartão</label><input id="c_num" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number"></div>
+                            <div class="form-group"><label>Nome impresso</label><input id="c_nome" placeholder="Como está no cartão" autocomplete="cc-name"></div>
+                            <div class="row2">
+                                <div class="form-group"><label>Validade</label><input id="c_val" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp"></div>
+                                <div class="form-group"><label>CVV</label><input id="c_cvv" inputmode="numeric" placeholder="123" maxlength="4" autocomplete="cc-csc"></div>
+                            </div>
+                            <div class="form-group"><label>Parcelas</label><select id="c_parc" style="width:100%;min-height:48px;border-radius:8px;border:1px solid #ddd;padding:0 12px"><option>À vista</option><option>2x sem juros</option><option>3x sem juros</option></select></div>
+                        </div>
+
+                        <div id="pay-pix" style="display:none">
+                            <div class="pix-box">
+                                <p style="margin-bottom:12px"><strong>Escaneie o QR Code para pagar</strong><br><small id="pix-amount-label">Valor atualizado conforme o total</small></p>
+                                <img id="pix-qr" src="" alt="QR Code Pix">
+                                <textarea class="pix-code" id="pix-code" readonly></textarea>
+                                <br><button type="button" class="btn-copy" id="btn-copy-pix"><i class="fa-solid fa-copy"></i> Copiar código Pix</button>
+                                <p style="margin-top:12px"><small>Chave: <strong id="pix-key-label"></strong> • Após pagar, clique em "Já paguei".</small></p>
+                            </div>
+                        </div>
+
+                        <div class="co-nav"><button type="button" class="co-back" data-goto="2">← Voltar</button></div>
+                        <button type="submit" class="btn-checkout" id="btn-pay" style="background:#009B3A">Pagar agora</button>
+                        <p class="checkout-note" style="margin-bottom:0"><i class="fa-solid fa-lock"></i> Seus dados estão protegidos. Ao confirmar, o pedido é registrado na loja.</p>
+                      </section>
+                    </form>
+                </div>
+
+                <div class="checkout-card">
+                    <h3>Resumo</h3>
+                    <hr class="checkout-divider">
+                    <div id="summary-items"></div>
+                    <div style="display:flex;justify-content:space-between;margin-top:12px"><span>Subtotal</span><strong id="sum-sub">R$ 0,00</strong></div>
+                    <div id="frete-placeholder" style="background:#F4F4F5;border:1.5px dashed #bbb;border-radius:14px;padding:12px 14px;margin-top:12px;font-size:13px;color:#666">📦 <strong>Frete calculado no carrinho.</strong><br>Volte ao <a href="carrinho.html" style="font-weight:700">carrinho</a>, informe seu CEP e clique em <strong>Calcular</strong> para ver o valor e o prazo.</div>
+                    <div id="frete-box" style="display:none;background:#fff;border:1px solid #e5e5e5;border-radius:14px;padding:12px 14px;margin-top:12px">
+                        <div style="display:flex;gap:12px;align-items:flex-start">
+                            <div style="width:40px;height:40px;flex-shrink:0;border-radius:50%;background:#E8F5E9;color:#009B3A;display:flex;align-items:center;justify-content:center;font-size:17px"><i class="fa-solid fa-truck-fast"></i></div>
+                            <div style="flex:1"><strong style="font-size:13px">Entrega com rastreio — Mercado Envios</strong><br><small id="frete-prazo" style="color:#009B3A;font-weight:700">Chega até sábado</small></div>
+                            <strong id="sum-frete">R$ 0,00</strong>
+                        </div>
+                        <small style="color:#666">Rastreio incluído • Postado em 24h • Calculado no carrinho</small>
+                    </div>
+                    <hr class="checkout-divider">
+                    <div class="checkout-total"><span>Total:</span><span id="sum-total">R$ 0,00</span></div>
+                    <p class="checkout-note" id="sum-note"><i class="fa-solid fa-lock"></i> Compra protegida Brasil Patriota.</p>
+                    <a href="carrinho.html" style="display:block;text-align:center;margin-top:12px;font-weight:700">← Voltar ao carrinho</a>
+                </div>
+            </div>
+
+            <div id="checkout-success" style="display:none;max-width:560px;margin:0 auto">
+                <div class="success-box" style="padding-top:24px">
+                    <img id="thanks-photo" src="img/obrigado-companheira.jpg" alt="Obrigado, companheira!" style="width:100%;border-radius:18px;margin-bottom:18px" onerror="this.style.display='none'">
+                    <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+                    <h2>Pedido confirmado!</h2>
+                    <p class="text-muted" style="font-size:17px"><strong>Obrigado, companheira! 🇧🇷</strong></p>
+                    <p class="text-muted">Enviamos os detalhes para seu e-mail.</p>
+                    <div class="order-num" id="order-num">BRP-000000</div>
+                    <div id="order-detail" style="text-align:left;background:#F4F4F5;border-radius:14px;padding:16px;font-size:14px"></div>
+                    <a href="produtos.html" class="btn-add fashion-btn-dark" style="display:inline-block;margin-top:20px;padding:14px 32px;text-decoration:none">Voltar para a loja</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="processing-overlay" id="processing">
+        <div class="processing-box"><div class="spinner"></div><h3>Processando pagamento...</h3><p class="text-muted">Confirmando com a operadora, aguarde.</p></div>
+    </div>
+
+    <footer class="footer"><div class="container"><div class="footer-bottom" style="border:none;margin:0"><p>&copy; <span id="ano-atual"></span> Loja Brasil Patriota — pagamento seguro.</p></div></div></footer>
+
+<script src="js/db.js"></script>
+<script>
+// ===== CONFIGURE AQUI SUA CHAVE PIX (QR Code verdadeiro) =====
+const PIX_KEY = "d8ec0293-fc06-4588-bec6-2a956cf762fa"; // <-- Chave Pix da loja (aleatória)
+const PIX_NAME = "BRASIL PATRIOTA";
+const PIX_CITY = "BRASILIA";
+
+let cart=[]; try{cart=JSON.parse(localStorage.getItem('brasilpatriota_cart'))||JSON.parse(localStorage.getItem('mitopatriota_cart'))||[]}catch(e){cart=[]}
+const badge=document.getElementById('cart-count'); if(badge) badge.innerText=cart.reduce((a,i)=>a+i.quantidade,0);
+document.getElementById('ano-atual').textContent=new Date().getFullYear();
+document.getElementById('pix-key-label').innerText=PIX_KEY;
+const BRL=v=>'R$ '+v.toFixed(2).replace('.',',');
+let currentTotal=0;
+function proximoSabado(){
+  const d=new Date(); const diff=(6-d.getDay()+7)%7||7;
+  d.setDate(d.getDate()+diff);
+  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+}
+function freteCalculado(){
+  try{
+    const v=(localStorage.getItem('brasilpatriota_cep')||'').replace(/\D/g,'');
+    if(v.length!==8) return null;
+    if(!sessionStorage.getItem('brasilpatriota_cep_ok')) return null;
+    return v;
+  }catch(e){return null}
+}
+function renderSummary(){
+  const box=document.getElementById('summary-items');
+  if(!cart.length){box.innerHTML='<p> Carrinho vazio. <a href=produtos.html>Ver loja</a></p>';return}
+  const escSum=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  let sub=0; box.innerHTML=cart.map(i=>{const t=i.preco*i.quantidade;sub+=t;return `<div style="display:flex;gap:12px;margin-bottom:12px;align-items:center"><img src="${i.imagem_url}" style="width:56px;height:70px;object-fit:cover;border-radius:10px"><div style="flex:1"><strong style="font-size:13px">${i.nome}</strong><br><small>Tam ${i.tamanho} • Qtd ${i.quantidade}</small>${i.custom?`<br><small style="color:#009B3A;font-weight:700">Costas: ${escSum(i.custom)}</small>`:''}</div><strong>${BRL(t)}</strong></div>`}).join('');
+  const cep=freteCalculado();
+  const frete=sub>=199||sub===0?0:19.9;
+  const boxFull=document.getElementById('frete-box'), ph=document.getElementById('frete-placeholder');
+  if(cep){
+    currentTotal=sub+frete;
+    if(boxFull)boxFull.style.display='block'; if(ph)ph.style.display='none';
+    document.getElementById('sum-sub').innerText=BRL(sub);
+    document.getElementById('sum-frete').innerText=frete===0?'Grátis':BRL(frete);
+    document.getElementById('sum-total').innerText=BRL(currentTotal);
+    const prazo=document.getElementById('frete-prazo'); if(prazo) prazo.innerText=`Chega até sábado (${proximoSabado()}) • CEP ${cep.slice(0,5)}-${cep.slice(5)}`;
+    const sn=document.getElementById('sum-note'); if(sn) sn.innerHTML='<i class="fa-solid fa-lock"></i> Compra protegida Brasil Patriota.';
+  } else {
+    currentTotal=sub;
+    if(boxFull)boxFull.style.display='none'; if(ph)ph.style.display='block';
+    document.getElementById('sum-sub').innerText=BRL(sub);
+    document.getElementById('sum-total').innerText=BRL(sub)+' *';
+    const sn=document.getElementById('sum-note'); if(sn) sn.innerHTML='<i class="fa-solid fa-circle-info"></i> Total sem frete. O frete é calculado no carrinho com o seu CEP.';
+  }
+  const parc=document.getElementById('c_parc'); if(parc){parc.innerHTML=`<option>À vista ${BRL(currentTotal)}</option><option>2x de ${BRL(currentTotal/2)} sem juros</option><option>3x de ${BRL(currentTotal/3)} sem juros</option>`}
+  buildPix();
+}
+function crc16(str){let crc=0xFFFF;for(let i=0;i<str.length;i++){crc^=str.charCodeAt(i)<<8;for(let j=0;j<8;j++){crc=(crc&0x8000)?((crc<<1)^0x1021):(crc<<1);crc&=0xFFFF}}return crc.toString(16).toUpperCase().padStart(4,'0')}
+function tlv(id,val){return id+String(val.length).padStart(2,'0')+val}
+function pixPayload(key,name,city,amount,txid){
+  const gui=tlv('00','br.gov.bcb.pix')+tlv('01',key);
+  const mai=tlv('26',gui);
+  let p=tlv('00','01')+mai+tlv('52','0000')+tlv('53','986')+(amount>0?tlv('54',amount.toFixed(2)):'')+tlv('58','BR')+tlv('59',name.substring(0,25).toUpperCase())+tlv('60',city.substring(0,15).toUpperCase())+tlv('62',tlv('05',txid))+tlv('63','04');
+  return p+crc16(p);
+}
+function buildPix(){
+  const order='BRP'+Date.now().toString().slice(-6);
+  const payload=pixPayload(PIX_KEY,PIX_NAME,PIX_CITY,currentTotal,order);
+  document.getElementById('pix-code').value=payload;
+  document.getElementById('pix-qr').src='https://api.qrserver.com/v1/create-qr-code/?size=220x220&data='+encodeURIComponent(payload);
+  document.getElementById('pix-amount-label').innerText='Total '+BRL(currentTotal)+' • '+PIX_NAME;
+}
+renderSummary();
+document.getElementById('btn-copy-pix').addEventListener('click',()=>{const t=document.getElementById('pix-code');t.select();document.execCommand('copy');navigator.clipboard&&navigator.clipboard.writeText(t.value);alert('Código Pix copiado!')});
+let payMethod='card';
+const btnPay=document.getElementById('btn-pay');
+document.querySelectorAll('.pay-tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.pay-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');payMethod=t.dataset.pay;
+  document.getElementById('pay-card').style.display=payMethod==='card'?'block':'none';
+  document.getElementById('pay-pix').style.display=payMethod==='pix'?'block':'none';
+  btnPay.innerHTML=payMethod==='pix'?'Já paguei, confirmar pedido':'Pagar agora';
+}));
+function detectBrand(n){
+  n=n.replace(/\D/g,'');
+  if(/^4/.test(n))return'visa';
+  if(/^(5[1-5]|2[2-7])/.test(n))return'master';
+  if(/^(34|37)/.test(n))return'amex';
+  if(/^(4011|4312|4389|4514|4576|5041|5066|5067|509|6277|6362|650|60)/.test(n))return'elo';
+  if(/^(3841|38410|3841|60)/.test(n))return'hiper';
+  if(/^60/.test(n))return'hiper';
+  return'';
+}
+const num=document.getElementById('c_num');
+num.addEventListener('input',()=>{
+  let v=num.value.replace(/\D/g,'').slice(0,16);num.value=v.replace(/(\d{4})(?=\d)/g,'$1 ');
+  document.getElementById('preview-num').innerText=(num.value||'•••• •••• •••• ••••');
+  const b=detectBrand(v);
+  document.querySelectorAll('.brand-flag').forEach(f=>f.classList.toggle('on',f.dataset.b===b));
+  document.getElementById('card-brand-label').innerText=b?b.toUpperCase():'•••';
+});
+document.getElementById('c_nome').addEventListener('input',e=>document.getElementById('preview-name').innerText=(e.target.value||'SEU NOME').toUpperCase());
+const val=document.getElementById('c_val');val.addEventListener('input',()=>{let v=val.value.replace(/\D/g,'').slice(0,4);if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);val.value=v;document.getElementById('preview-val').innerText=v||'MM/AA'});
+document.getElementById('f_cpf').addEventListener('input',e=>{let v=e.target.value.replace(/\D/g,'').slice(0,11);v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');e.target.value=v});
+document.getElementById('f_cep').addEventListener('input',e=>{let v=e.target.value.replace(/\D/g,'').slice(0,8);if(v.length>5)v=v.slice(0,5)+'-'+v.slice(5);e.target.value=v});
+renderSummary();
+let coStep=1;
+function showCoStep(n){
+  coStep=n;
+  ['sec-dados','sec-entrega','sec-pagamento'].forEach((id,k)=>{
+    document.getElementById(id).classList.toggle('on', k===n-1);
+  });
+  document.querySelectorAll('#co-steps [data-costep]').forEach(a=>{
+    a.classList.toggle('active', parseInt(a.dataset.costep,10)<=n);
+  });
+  document.getElementById('checkout-main').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function validCoStep(n){
+  const ids=['sec-dados','sec-entrega','sec-pagamento'];
+  const sec=document.getElementById(ids[n-1]);
+  const fields=sec.querySelectorAll('input[required],select[required]');
+  for(const f of fields){ if(!f.checkValidity()){ f.reportValidity(); return false; } }
+  if(n===3 && payMethod==='card' && num.value.replace(/\D/g,'').length<16){ alert('Digite o número do cartão com 16 dígitos.'); num.focus(); return false; }
+  return true;
+}
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>{
+  const to=parseInt(b.dataset.goto,10);
+  if(to>coStep && !validCoStep(coStep)) return;
+  showCoStep(to);
+}));
+document.querySelectorAll('#co-steps [data-costep]').forEach(a=>a.addEventListener('click',(e)=>{
+  e.preventDefault();
+  const to=parseInt(a.dataset.costep,10);
+  if(to>coStep && !validCoStep(coStep)) return;
+  showCoStep(to);
+}));
+showCoStep(1);
+document.getElementById('checkout-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!cart.length){alert('Seu carrinho está vazio.');return}
+  for(const [i,secId] of ['sec-dados','sec-entrega'].entries()){
+    for(const f of document.getElementById(secId).querySelectorAll('input[required],select[required]')){
+      if(!f.checkValidity()){ showCoStep(i+1); f.reportValidity(); return; }
+    }
+  }
+  const cepOk=freteCalculado();
+  if(!cepOk){alert('O frete é calculado no carrinho. Volte ao carrinho, informe seu CEP e clique em Calcular.');window.location.href='carrinho.html';return}
+  if(payMethod==='card'&&num.value.replace(/\D/g,'').length<16){alert('Digite o número do cartão com 16 dígitos.');return}
+  document.getElementById('processing').classList.add('show');
+  setTimeout(()=>{
+    document.getElementById('processing').classList.remove('show');
+    const nome=document.getElementById('f_nome').value;
+    const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const end=`${document.getElementById('f_rua').value}, ${document.getElementById('f_num').value}`+(document.getElementById('f_comp').value?` - ${document.getElementById('f_comp').value}`:'')+` - ${document.getElementById('f_bairro').value}, ${document.getElementById('f_cidade').value}/${document.getElementById('f_uf').value} - CEP ${document.getElementById('f_cep').value}`;
+    const total=document.getElementById('sum-total').innerText;
+    const order='BRP-'+Math.floor(100000+Math.random()*900000);
+    document.getElementById('order-num').innerText=order;
+    const payLabel=payMethod==='card'?'Cartão final '+num.value.slice(-4):payMethod.toUpperCase();
+    const customs=cart.filter(i=>i.custom&&i.custom.trim()).map(i=>`${esc(i.nome)}: costas "${esc(i.custom.trim())}"`).join('<br>');
+    document.getElementById('order-detail').innerHTML=`<strong>Cliente:</strong> ${esc(nome)}<br><strong>Pagamento:</strong> ${payLabel}<br><strong>Itens:</strong> ${cart.reduce((a,i)=>a+i.quantidade,0)} peça(s)<br><strong>Total:</strong> ${total}<br><strong>Entrega:</strong> Mercado Envios • Chega até sábado (${proximoSabado()})<br><strong>Endereço:</strong> ${esc(end)}`+(customs?`<br><strong>Personalização:</strong><br>${customs}`:'')+(payMethod==='pix'?`<br><br><strong>Pix:</strong> QR Code acima no valor de ${total}. Guarde o comprovante do pagamento.`:'');
+    document.getElementById('checkout-main').style.display='none';
+    document.getElementById('checkout-success').style.display='block';
+    document.querySelectorAll('#co-steps [data-costep]').forEach(a=>a.classList.add('active'));
+    window.scrollTo({top:0,behavior:'smooth'});
+    try{
+      const fullOrder={order,total,items:cart.map(i=>({id:i.id,nome:i.nome,codigo:i.codigo,cor:i.cor,tamanho:i.tamanho,quantidade:i.quantidade,preco:i.preco,custom:i.custom||''})),nome,endereco:end,email:document.getElementById('f_email').value,fone:document.getElementById('f_fone').value,cpf:document.getElementById('f_cpf').value,date:new Date().toISOString(),pay:payMethod};
+      localStorage.setItem('brasilpatriota_last_order',JSON.stringify(Object.assign({},fullOrder,{cart})));
+      if(window.BPDB) BPDB.saveOrder(fullOrder);
+      localStorage.removeItem('brasilpatriota_cart');localStorage.removeItem('mitopatriota_cart');localStorage.removeItem('versiculos_cart');
+    }catch(e){}
+    if(badge)badge.innerText='0';
+  },2000);
+});
+</script>
+</body>
+</html>
